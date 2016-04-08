@@ -1,0 +1,25 @@
+SRCS= main_temp.cpp matrix.cpp  
+OBJS= $(SRCS:.cpp=.o)
+EXEC=main_temp
+HEADERS=matrix.h 
+
+CXXFLAGS="-std=gnu++11"
+
+$(EXEC):$(OBJS)
+	$(CXX) $(CXXFLAGS) $(OBJS) -o $(EXEC)
+
+matrix.o:matrix.cpp $(HEADERS)
+	$(CXX) $(CXXFLAGS) -c matrix.cpp
+
+main_temp.o:$(SRCS) $(HEADERS)
+	$(CXX) $(CXXFLAGS) -c main_temp.cpp
+	
+.PHONY: all clean distclean
+all: $(EXEC)
+clean:
+	rm -i $(EXEC) $(OBJS)
+distclean:
+	rm -i $(EXEC)	
+
+
+

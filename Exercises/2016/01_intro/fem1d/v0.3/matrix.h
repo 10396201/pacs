@@ -2,6 +2,8 @@
 #define H_MATRIX_H
 
 #include <vector>
+#include <iostream>
+#include <algorithm>
 
 class matrix{
 	unsigned int nrows;
@@ -9,34 +11,39 @@ class matrix{
 	
 	std::vector<double> mat;
 	
+	public:
 	//default constructor
-	matrix(const unsigned int nrows_=1, const unsigned int ncols_=1);
+	matrix(const unsigned int nrows_=1, const unsigned int ncols_=1, const double init_val=0);
+	
+	//copy constructor
+	matrix(matrix const &)=default;
 	
 	//default destructor
 	~matrix();
 	
-	//index. controlla: accedi per colonna, è più veloce
-	inline unsigned int index(const unsigned int i, const unsigned int j){return i*ncols+j;}
+	//overloading of () : 2 indices
+	double& operator() (const unsigned int i, const unsigned int j){return mat[j*nrows+i];};
 	
-	//overloading of []
+	//overloading of [] : 1 index
+	double& operator[] (const unsigned int i){return mat[i];};
 	
-	
-	public:
 	//get_nrows
-	inline unsigned int get_nrows(){return nrows;}
+	unsigned int get_nrows(){return nrows;};
 	
 	//get_ncols
-	inline unsigned int get_ncols(){return ncols;}
+	unsigned int get_ncols(){return ncols;};
+	
+	//get_vect
+	std::vector<double> get_vect(){return mat;};
 	
 	
 	//matrix transpose
-	matrix matrix_transpose(matrix A);
+	matrix matrix_transpose(matrix &A);
 	
 	//matrix product
 	
 	//matrix sum
 	
 	//gauss-seidel to solve a linear system
-	
-
-}
+};
+#endif
