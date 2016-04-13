@@ -6,7 +6,7 @@
 
 #include "readParameters.hpp"
 #include "GetPot.hpp"
-//#include "gnuplot-iostream.hpp"// interface with gnuplot
+#include "gnuplot-iostream.hpp"// interface with gnuplot
 /*!
   @file main.cpp
   @brief Temperature distribution in a 1D bar.
@@ -65,7 +65,7 @@ int main(int argc, char** argv)
   const auto& hc=param.hc; // Convection coefficient
   const auto& M=param.M; // Number of grid elements
   
-  //const char* output_filename = param.outname;
+  const string output_filename = param.output_filename;
   const auto& whatout=param.whatout;
   
   //! Precomputed coefficient for adimensional form of equation
@@ -125,20 +125,25 @@ int main(int argc, char** argv)
 
     
     switch(whatout){
-    	case 1:      {// writing results with format
+    	case 1:      {//only graphic
+    		     // writing results with format
      		     // x_i u_h(x_i) u(x_i) and lauch gnuplot 
 
-     		     //Gnuplot gp;
+     		     Gnuplot gp;
      		     std::vector<double> coor(M+1);
      		     std::vector<double> sol(M+1);
      		     std::vector<double> exact(M+1);
+     		     //fill the vectors
+     		     for(int m = 0; m<= M; m++)
+       			{ 
+	 			std::tie(coor[m],sol[m],exact[m])=std::make_tuple(m*h*L,Te*(1.+theta[m]),thetaa[m]);
+       			}
     		     // Using temporary files (another nice use of tie)
-     		     //gp<<"plot"<<gp.file1d(std::tie(coor,sol))<<
-       		     //"w lp title 'uh',"<< gp.file1d(std::tie(coor,exact))<<
-       		     //"w l title 'uex'"<<std::endl;
+     		     gp<<"plot"<<gp.file1d(std::tie(coor,sol))<<"w lp title 'uh',"<< gp.file1d(std::tie(coor,exact))<<"w l title 'uex'"<<std::endl;
        		     break;}
-       	case 2:      {cout<<"Result file: result.dat"<<endl;
-    		     ofstream f("result.dat");
+       	case 2:      {//only data file
+       		     cout<<"Result file: "<<output_filename<<endl;
+    		     ofstream f(output_filename);
     		     std::vector<double> coor(M+1);
      		     std::vector<double> sol(M+1);
      		     std::vector<double> exact(M+1);
@@ -148,34 +153,28 @@ int main(int argc, char** argv)
          			f<<m*h*L<<"\t"<<Te*(1.+theta[m])<<"\t"<<thetaa[m]<<endl;
 	 			// An example of use of tie and tuples!
          
-	 			std::tie(coor[m],sol[m],exact[m])=
-	   			std::make_tuple(m*h*L,Te*(1.+theta[m]),thetaa[m]);
+	 			std::tie(coor[m],sol[m],exact[m])=std::make_tuple(m*h*L,Te*(1.+theta[m]),thetaa[m]);
        			}
      		     f.close();
      		     break;}
-    	case 3:      {// writing results with format
-     		     // x_i u_h(x_i) u(x_i) and lauch gnuplot 
-
-     		     //Gnuplot gp;
+    	case 3:      {// Graphic + data file
+     		     Gnuplot gp;
      		     std::vector<double> coor(M+1);
      		     std::vector<double> sol(M+1);
      		     std::vector<double> exact(M+1);
-    		     // Using temporary files (another nice use of tie)
-     		     //gp<<"plot"<<gp.file1d(std::tie(coor,sol))<<
-       		     //"w lp title 'uh',"<< gp.file1d(std::tie(coor,exact))<<
-       		     //"w l title 'uex'"<<std::endl;
-       	             cout<<"Result file: result.dat"<<endl;
-    		     ofstream f("result.dat");
+     		     
+     		     cout<<"Result file: "<<output_filename<<endl;
+    		     ofstream f(output_filename);
      		     for(int m = 0; m<= M; m++)
        			{
 	 			// \t writes a tab 
          			f<<m*h*L<<"\t"<<Te*(1.+theta[m])<<"\t"<<thetaa[m]<<endl;
 	 			// An example of use of tie and tuples!
-         
-	 			std::tie(coor[m],sol[m],exact[m])=
-	   			std::make_tuple(m*h*L,Te*(1.+theta[m]),thetaa[m]);
+	 			std::tie(coor[m],sol[m],exact[m])=std::make_tuple(m*h*L,Te*(1.+theta[m]),thetaa[m]);
        			}
      		     f.close();
+    		     // Using temporary files (another nice use of tie)
+     		     gp<<"plot"<<gp.file1d(std::tie(coor,sol))<<"w lp title 'uh',"<< gp.file1d(std::tie(coor,exact))<<"w l title 'uex'"<<std::endl;
      		     break;}
     }     
 

@@ -15,7 +15,7 @@
 
 MAKEFILEH_DIR=../..
 #
-include $(MAKEFILEH_DIR)/Makefile.user
+include $(MAKEFILEH_DIR)/Makefile.inc
 #
 # You may have an include file also in the current directory
 #
@@ -26,7 +26,8 @@ include $(MAKEFILEH_DIR)/Makefile.user
 # mains are identified bt main_XX.cpp
 # all other files are XX.cpp
 #
-
+CXXFLAGS+=-I${mkBoostInc}
+LIBD+=-L${mkBoostLib}
 # get all files *.cpp
 SRCS=$(wildcard *.cpp)
 # get the corresponding object file

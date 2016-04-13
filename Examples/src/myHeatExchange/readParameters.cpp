@@ -33,7 +33,7 @@ parameters readParameters(std::string const & filename, bool verbose)
   values.k=ifile("k",defaults.k);
   values.hc=ifile("hc",defaults.hc);
   values.M=ifile("M",defaults.M);
-  //values.outname=ifile("outname",defaults.outname);
+  values.output_filename=ifile("output_filename",defaults.output_filename.data());
   values.whatout=ifile("whatout",defaults.whatout);
   
   if(verbose)

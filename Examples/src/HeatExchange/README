@@ -5,6 +5,6 @@ the 1D heat equation with a Gauss-Siedel  iteration.
 Taken and adapted from "Simulation numerique an C++" of I. Danaila, F. Hecht e
    O. Pironneau, 2005
 
-Using gnuplot plot.gnu you ara eble to visualize the results.
+Using gnuplot plot.gnu you ara able to visualize the results.
 
 make heat_exchange.pdf produce a file with the description of the example.

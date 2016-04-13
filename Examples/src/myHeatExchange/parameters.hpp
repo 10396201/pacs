@@ -27,7 +27,7 @@ struct parameters
   //! Number of elements
   int M;
   //! Output filename
-  //const char* outname;
+  std::string output_filename;
   //! How to show the results
   int whatout;
   
@@ -43,7 +43,7 @@ struct parameters
     k(0.164),
     hc(1.e-6*200.),
     M(100),
-    //outname("result.dat")
+    output_filename("result.dat"),
     whatout(1)
   {}
 };

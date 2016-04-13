@@ -13,7 +13,7 @@ std::ostream & operator << (std::ostream & out,const parameters & p)
   out<<"k= "<<p.k<<"\n";
   out<<"hc= "<<p.hc<<"\n";
   out<<"M= "<<p.M<<"\n";
-  //out<<"output_filename= "<<p.outname<<"\n\n";
+  out<<"output_filename= "<<p.output_filename<<"\n";
   out<<"whatout= "<<p.whatout<<"\n\n";
   return out;
 }

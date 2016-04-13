@@ -138,9 +138,7 @@ int main(int argc, char** argv)
 	   std::make_tuple(m*h*L,Te*(1.+theta[m]),thetaa[m]);
        }
      // Using temporary files (another nice use of tie)
-     gp<<"plot"<<gp.file1d(std::tie(coor,sol))<<
-       "w lp title 'uh',"<< gp.file1d(std::tie(coor,exact))<<
-       "w l title 'uex'"<<std::endl;
+     gp<<"plot"<<gp.file1d(std::tie(coor,sol))<<"w lp title 'uh',"<< gp.file1d(std::tie(coor,exact))<<"w l title 'uex'"<<std::endl;
      f.close();
      return status;
 }
