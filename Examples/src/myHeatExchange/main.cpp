@@ -88,7 +88,7 @@ int main(int argc, char** argv)
   // Stopping criteria epsilon<=toler
   
   int iter=0;
-  double xnew, epsilon;
+  double xnew, epsilon, err_norml2=0.;
      do
        { epsilon=0.;
 
@@ -105,7 +105,9 @@ int main(int argc, char** argv)
 	 epsilon += (xnew-theta[M])*(xnew-theta[M]);
 	 theta[M]=  xnew; 
 
-	 iter=iter+1;     
+	 iter=iter+1;   
+	 err_norml2=sqrt(epsilon*h);  
+       //}while((err_norml2 > toler) && (iter < itermax) );
        }while((sqrt(epsilon) > toler) && (iter < itermax) );
 
     if(iter<itermax)
@@ -113,6 +115,7 @@ int main(int argc, char** argv)
     else
       {
 	cerr << "NOT CONVERGING in "<<itermax<<" iterations "<<
+	  //"||dx||="<<err_norml2<<endl;
 	  "||dx||="<<sqrt(epsilon)<<endl;
 	status=1;
       }
