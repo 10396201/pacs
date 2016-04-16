@@ -20,3 +20,9 @@ k=0.164
 hc=200.0e-6
 # Number of elements
 M=11
+# Output filename
+output_filename=risultati.dat
+# This variable has to be put equal to 1 for graphic on the screen, 2 for file, 3 for both 
+whatout=3
+# Stopping criterion: this variable has to be put equal to 1 for H^1 norm, 2 for L^2 norm, 3 for R^n norm
+stop_crit=3

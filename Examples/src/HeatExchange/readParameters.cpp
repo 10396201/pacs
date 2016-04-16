@@ -1,7 +1,8 @@
-#include "GetPot.hpp"
 #include "readParameters.hpp"
 #include <fstream>
-parameters readParameters(std::string const & filename,bool verbose)
+#include "GetPot.hpp"
+
+parameters readParameters(std::string const & filename, bool verbose)
 {
   // Parameter default constructor fills it with the defaults values
   parameters defaults;
@@ -19,6 +20,7 @@ parameters readParameters(std::string const & filename,bool verbose)
     check.close();
 
   GetPot ifile(filename.c_str());
+  
   parameters values;
   // Read parameters from getpot ddata base
   values.itermax=ifile("itermax",defaults.itermax);
@@ -31,6 +33,10 @@ parameters readParameters(std::string const & filename,bool verbose)
   values.k=ifile("k",defaults.k);
   values.hc=ifile("hc",defaults.hc);
   values.M=ifile("M",defaults.M);
+  values.output_filename=ifile("output_filename",defaults.output_filename.data());
+  values.whatout=ifile("whatout",defaults.whatout);
+  values.stop_crit=ifile("stop_crit",defaults.stop_crit);
+  
   if(verbose)
     {
       std::cout<<"PARAMETER VALUES IN GETPOT FILE"<<"\n";

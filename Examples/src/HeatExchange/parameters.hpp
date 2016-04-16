@@ -1,6 +1,9 @@
 #ifndef HH_Parameters_HH
 #define HH_Parameters_HH
-#include <iosfwd>
+#include <iostream>
+#include<string>
+#include "GetPot.hpp"
+
 struct parameters
 {
   //! max number of iteration for Gauss-Siedel
@@ -8,7 +11,7 @@ struct parameters
   //! Tolerance for stopping criterion
   double  toler;
   //! Bar length
-   double L;
+  double L;
   //! First longitudinal dimension
   double a1;
  //! Second longitudinal dimension
@@ -23,6 +26,13 @@ struct parameters
   double hc;
   //! Number of elements
   int M;
+  //! Output filename
+  std::string output_filename;
+  //! How to show the results
+  int whatout;
+  //! Stopping criterion
+  int stop_crit;
+  
   //! Constructor takes default values
   parameters():
     itermax(1000000),
@@ -34,7 +44,10 @@ struct parameters
     Te(20.),
     k(0.164),
     hc(1.e-6*200.),
-    M(100)
+    M(100),
+    output_filename("result.dat"),
+    whatout(1),
+    stop_crit(3)
   {}
 };
 //! Prints parameters
