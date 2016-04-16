@@ -50,7 +50,7 @@ clean:
 
 distclean:
 	$(MAKE) clean
-	$(RM) -f ./doc $(DEPEND) result.dat
+	$(RM) -f ./doc $(DEPEND) *.dat
 
 doc:
 	doxygen $(DOXYFILE)

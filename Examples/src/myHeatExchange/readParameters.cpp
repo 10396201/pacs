@@ -35,6 +35,7 @@ parameters readParameters(std::string const & filename, bool verbose)
   values.M=ifile("M",defaults.M);
   values.output_filename=ifile("output_filename",defaults.output_filename.data());
   values.whatout=ifile("whatout",defaults.whatout);
+  values.stop_crit=ifile("stop_crit",defaults.stop_crit);
   
   if(verbose)
     {

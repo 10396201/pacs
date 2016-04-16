@@ -30,6 +30,8 @@ struct parameters
   std::string output_filename;
   //! How to show the results
   int whatout;
+  //! Stopping criterion
+  int stop_crit;
   
   //! Constructor takes default values
   parameters():
@@ -44,7 +46,8 @@ struct parameters
     hc(1.e-6*200.),
     M(100),
     output_filename("result.dat"),
-    whatout(1)
+    whatout(1),
+    stop_crit(3)
   {}
 };
 //! Prints parameters

@@ -67,6 +67,7 @@ int main(int argc, char** argv)
   
   const string output_filename = param.output_filename;
   const auto& whatout=param.whatout;
+  const auto& stop_crit=param.stop_crit;
   
   //! Precomputed coefficient for adimensional form of equation
   const auto act=2.*(a1+a2)*hc*L*L/(k*a1*a2);
@@ -84,39 +85,57 @@ int main(int argc, char** argv)
      theta[m]=(1.-m*h)*(To-Te)/Te;
   
   // Gauss-Seidel
-  // epsilon=||x^{k+1}-x^{k}||
-  // Stopping criteria epsilon<=toler
+  // epsilon= x^{k+1}-x^{k}
+  // Stopping criteria err <=toler 
+  // err is computed through R^n norm or L^2 norm or H^1 norm (set this in parameters.pot) 
+  //R^n: err=sqrt(sum(epsilon*epsilon))
+  //L^2: err=sqrt(h*err_Rn)
+  //H^1: err=err_L2+sqrt(h*sum((epsilon(k)-epsilon(k-1))/h*(epsilon(k)-epsilon(k-1))/h))=err_L2+sqrt(1/h*sum((epsilon(k)-epsilon(k-1))*(epsilon(k)-epsilon(k-1)))
   
   int iter=0;
-  double xnew, epsilon, err_norml2=0.;
+  double xnew, epsilon, prev_epsilon, grad_epsilon, err=0., err_Rn=0., err_L2=0., err_H1=0.;
      do
-       { epsilon=0.;
+       { err_Rn=0.;
+       	 prev_epsilon=0.; //in the first node the solution is exact
+       	 grad_epsilon=0.;
 
 	 // first M-1 row of linear system
          for(int m=1;m < M;m++)
          {   
 	   xnew  = (theta[m-1]+theta[m+1])/(2.+h*h*act);
-	   epsilon += (xnew-theta[m])*(xnew-theta[m]);
+	   epsilon=xnew-theta[m];
+	   grad_epsilon+=(epsilon-prev_epsilon)*(epsilon-prev_epsilon);
+	   err_Rn += epsilon*epsilon;
+	   prev_epsilon=epsilon;
 	   theta[m] = xnew;
          }
 
 	 //Last row
 	 xnew = theta[M-1]; 
-	 epsilon += (xnew-theta[M])*(xnew-theta[M]);
+	 epsilon=xnew-theta[M];
+	 grad_epsilon+=(epsilon-prev_epsilon)*(epsilon-prev_epsilon);
+	 err_Rn += epsilon*epsilon;
 	 theta[M]=  xnew; 
 
 	 iter=iter+1;   
-	 err_norml2=sqrt(epsilon*h);  
-       //}while((err_norml2 > toler) && (iter < itermax) );
-       }while((sqrt(epsilon) > toler) && (iter < itermax) );
+	 
+	 err_L2=sqrt(err_Rn*h);  
+	 err_H1=err_L2+sqrt(1./h*grad_epsilon);
+	 err_Rn=sqrt(err_Rn);
+	 
+	 switch(stop_crit){
+	 	case 1: {err=err_H1;}
+	 	case 2: {err=err_L2;}
+	 	case 3: {err=err_Rn;}
+	 }   
+       }while((err > toler) && (iter < itermax) );
 
     if(iter<itermax)
       cout << "M="<<M<<"  Convergence in "<<iter<<" iterations"<<endl;
     else
       {
 	cerr << "NOT CONVERGING in "<<itermax<<" iterations "<<
-	  //"||dx||="<<err_norml2<<endl;
-	  "||dx||="<<sqrt(epsilon)<<endl;
+	  "||dx||="<<err<<endl;
 	status=1;
       }
 
