@@ -1,7 +1,7 @@
 #include "fem1d.h"
 #include "mesh.h"
 #include "GetPot"
-#include "libsparsematrix.a"
+//#include "libsparsematrix.a"
 
 int main (int argc, char **argv)
 {

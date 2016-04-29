@@ -1,0 +1,4 @@
+# f(x) function
+f="sin(x)"
+# a(x)
+a="cos(x)"
