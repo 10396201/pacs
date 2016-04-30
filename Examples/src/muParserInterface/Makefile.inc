@@ -2,8 +2,8 @@
 # leave it blank if it is installed in standard directories
 #
 # If you use the dynamic library you may need to set LD_LIBRARY_PATH
-MUPARSER_LIBDIR=#-L/usr/local/lib
-MUPARSER_INCLUDE=#-I/usr/local/include
+MUPARSER_LIBDIR=-L$(HOME)/usr/lib
+MUPARSER_INCLUDE=-I$(HOME)/usr/include
 LIBRARY_NAME=muParserInterface
 STATIC_LIBFILE=lib$(LIBRARY_NAME).a
 DYNAMIC_LIBFILE=lib$(LIBRARY_NAME).so
