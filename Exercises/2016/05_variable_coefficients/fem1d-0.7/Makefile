@@ -1,6 +1,6 @@
 OBJS = fem1d.o mesh.o
 HEADERS = 
-CPPFLAGS ?= -I. -I/opt/local/include/eigen3
+CPPFLAGS ?= -I. 
 LDFLAGS ?= 
 LIBS = 
 

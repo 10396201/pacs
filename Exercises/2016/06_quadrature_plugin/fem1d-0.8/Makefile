@@ -1,3 +1,4 @@
+-include Makefile.inc
 
 .PHONY : clean distclean all
 
